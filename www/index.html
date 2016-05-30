@@ -78,6 +78,7 @@
                <paper-card heading="Balance" class="car-center">
                <iron-ajax
                 auto
+                id = "balanceGet"
                 url="http://private-anon-1ad16da62-taskhandler.apiary-mock.com/workers/5/balance"
                 handle-as="json"
                 contentType="application/json"
@@ -88,6 +89,7 @@
                <paper-card heading="Historial" class="car-center">
                <iron-ajax
                 auto
+                id = "historyGet"
                 url="http://private-anon-1ad16da62-taskhandler.apiary-mock.com/workers/5/history"
                 handle-as="json"
                 contentType="application/json"
@@ -97,15 +99,16 @@
                 <paper-material elevation="2">{{item.text}}</paper-material>
                </template>
               </paper-card>              
-            </section>
+    </section>
 	</div>
 	<div>
 	<section class="section_scroll">
               <paper-dialog-scrollable>
                <iron-ajax
-                auto
+                id = "taskGet"
                 url="http://private-anon-1ad16da62-taskhandler.apiary-mock.com/tasks/latest"
                 handle-as="json"
+                method="GET"
                 contentType="application/json"
                 last-response="{{tasksRespuesta}}">
               </iron-ajax>              
@@ -117,7 +120,7 @@
               <iron-autogrow-textarea id="txt1" class="car-center" value="{{tasksRespuesta.data.text}}Prueba">
             </iron-autogrow-textarea>
               </paper-dialog-scrollable>
-            </section>
+  </section>
             <section class="car-center">
               <iron-ajax
                  
@@ -138,23 +141,36 @@
 </div>
 <script>
 addEventListener('WebComponentsReady', function() {
-var pages = document.querySelector('iron-pages');
-var tabs = document.querySelector('#paper_tabs');
+  var pages = document.querySelector('iron-pages');
+  var tabs = document.querySelector('#paper_tabs');
 
-tabs.addEventListener('iron-select', function() { 
+  tabs.addEventListener('iron-select', function() { 
               pages.selected = tabs.selected;
+              if (tabs.selected == 1) {
+                var getSender = document.querySelector('#taskGet');
+                getSender.generateRequest();
+              } 
+              if (tabs.selected == 0) {
+                var getHistory = document.querySelector('#historyGet');
+                var getBalance = document.querySelector('#balanceGet');
+                getHistory.generateRequest();
+                getBalance.generateRequest();
+              } 
           });
-var botons = {
-                enviar: document.querySelector('#enviar'),
-                cancelar: document.querySelector('#cancelar')
-            };
-            var sender=document.querySelector('#taskPut');
-            var texto=document.querySelector('#txt1');
-          
-            botons.enviar.addEventListener('click', function(e) {
-              sender.body= JSON.stringify({"text":texto.value ,"worker": "magni"});
-              sender.generateRequest();
-            });
+  var botons = {
+      enviar: document.querySelector('#enviar'),
+      cancelar: document.querySelector('#cancelar')
+  };
+  var sender=document.querySelector('#taskPut');
+  var texto=document.querySelector('#txt1');
+
+  botons.enviar.addEventListener('click', function(e) {
+    sender.body= JSON.stringify({"text":texto.value ,"worker": "magni"});
+    sender.generateRequest();
+
+    var getSender = document.querySelector('#taskGet');
+    getSender.generateRequest();
+  });
 })
   </script>
 </body>
