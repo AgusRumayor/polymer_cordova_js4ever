@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+
+  <title>js4ever</title>
+
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/paper-card/paper-card.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/paper-material/paper-material.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="bower_components/iron-image/iron-image.html">
+<link rel="import" href="bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<style>
+      :host {
+        display: block;
+      }
+      #paper_tabs {
+        color: rgb(255, 255, 255);
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 2px;
+        background-color: rgb(0, 188, 212);
+      }
+      iron-icon {
+        transition: all 0.2s;
+        -webkit-transition: all 0.2s;
+      }
+      iron-icon:hover {
+        fill: var(--google-yellow-700);
+      }  
+
+      .section_scroll {
+        width: 100%;
+        height: 300px;
+        @apply(--layout-vertical);
+      }
+      section paper-dialog-scrollable {
+        @apply(--layout-flex);
+      }      
+      .car-center {
+        width: 100%;
+        text-align: center;
+      }  
+      .big {
+        --iron-icon-height:64px;
+        --iron-icon-width:64px;
+      }  
+      .horizontal-section {
+      max-width: 300px;
+      margin-bottom: 24px;
+    }
+    </style>
+</head>
+<body unresolved>
+  <div class="horizontal-section-container">
+<template is="dom-bind" id="app">
+	 <paper-tabs noink nobar selected="0" selectedindex="0" id="paper_tabs" horizontal center layout>
+        <paper-tab id="paper_tab" inline flex center-center horizontal layout active>
+            <iron-icon icon="list"></iron-icon>
+        </paper-tab>
+        <paper-tab id="paper_tab1" inline flex center-center horizontal layout>
+            <iron-icon icon="timeline"></iron-icon>
+        </paper-tab>
+      </paper-tabs> 
+	<iron-pages selected="0" id="iron-pages">
+          <div>
+		<section>
+              <paper-card class="car-center">
+                <iron-icon icon="face" class="big"></iron-icon>
+              </paper-card>
+               <paper-card heading="Balance" class="car-center">
+               <iron-ajax
+                auto
+                url="http://private-anon-1ad16da62-taskhandler.apiary-mock.com/workers/5/balance"
+                handle-as="json"
+                contentType="application/json"
+                last-response="{{balanceRespuesta}}">
+              </iron-ajax>
+                <paper-input disabled value="[[balanceRespuesta.data.balance]]"></paper-input>
+              </paper-card>
+               <paper-card heading="Historial" class="car-center">
+               <iron-ajax
+                auto
+                url="http://private-anon-1ad16da62-taskhandler.apiary-mock.com/workers/5/history"
+                handle-as="json"
+                contentType="application/json"
+                last-response="{{historialRespuesta}}">
+              </iron-ajax>               
+               <template is="dom-repeat" items="[[historialRespuesta.data]]">
+                <paper-material elevation="2">{{item.text}}</paper-material>
+               </template>
+              </paper-card>              
+            </section>
+	</div>
+	<div>
+	<section class="section_scroll">
+              <paper-dialog-scrollable>
+               <iron-ajax
+                auto
+                url="http://private-anon-1ad16da62-taskhandler.apiary-mock.com/tasks/latest"
+                handle-as="json"
+                contentType="application/json"
+                last-response="{{tasksRespuesta}}">
+              </iron-ajax>              
+                <iron-image src="[[tasksRespuesta.data.image_url]]"></iron-image>
+              </paper-dialog-scrollable>
+             </section>
+            <section class="section_scroll">
+              <paper-dialog-scrollable>
+              <iron-autogrow-textarea id="txt1" class="car-center" value="{{tasksRespuesta.data.text}}Prueba">
+            </iron-autogrow-textarea>
+              </paper-dialog-scrollable>
+            </section>
+            <section class="car-center">
+              <iron-ajax
+                 
+                id="taskPut"
+                url="http://private-anon-1ad16da62-taskhandler.apiary-mock.com/tasks/5[[tasksRespuesta.data.id]]"
+                method="PUT"
+                handle-as="json"
+                contentType="application/json"
+                last-response="{{putResponsable}}">
+              </iron-ajax>
+
+              <paper-button raised id="enviar">Enviar</paper-button>
+              <paper-button raised id="cancelar">Cancelar</paper-button>
+            </section>
+	</div>
+	</iron-pages>
+</template>
+</div>
+<script>
+addEventListener('WebComponentsReady', function() {
+var pages = document.querySelector('iron-pages');
+var tabs = document.querySelector('#paper_tabs');
+
+tabs.addEventListener('iron-select', function() { 
+              pages.selected = tabs.selected;
+          });
+var botons = {
+                enviar: document.querySelector('#enviar'),
+                cancelar: document.querySelector('#cancelar')
+            };
+            var sender=document.querySelector('#taskPut');
+            var texto=document.querySelector('#txt1');
+          
+            botons.enviar.addEventListener('click', function(e) {
+              sender.body= JSON.stringify({"text":texto.value ,"worker": "magni"});
+              sender.generateRequest();
+            });
+})
+  </script>
+</body>
+</html>
+
