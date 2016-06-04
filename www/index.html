@@ -22,7 +22,6 @@
         display: block;
     }
 
-
     #paper_tabs {
         color: rgb(255, 255, 255);
         box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 2px;
@@ -114,7 +113,7 @@
                             last-response="{{tasksRespuesta}}">
                         </iron-ajax>
                                   
-                          <iron-image sizing="contain" src="[[tasksRespuesta.data.image_url]]"></iron-image>
+                          <iron-image style="width:400px; height:400px;" sizing="contain" src="[[tasksRespuesta.data.image_url]]"></iron-image>
                         
                     </paper-dialog-scrollable>
                 </section>
