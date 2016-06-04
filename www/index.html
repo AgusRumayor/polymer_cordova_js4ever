@@ -56,119 +56,121 @@
 </style>
 </head>
 <body unresolved>
-  <div class="horizontal-section-container">
+<div class="horizontal-section-container">
     <template is="dom-bind" id="app">
-	    <paper-tabs noink nobar selected="0" selectedindex="0" id="paper_tabs" horizontal center layout>
-        <paper-tab id="paper_tab" inline flex center-center horizontal layout active>
-          <iron-icon icon="list"></iron-icon>
-        </paper-tab>
-        <paper-tab id="paper_tab1" inline flex center-center horizontal layout>
-            <iron-icon icon="timeline"></iron-icon>
-        </paper-tab>
-      </paper-tabs> 
-	    <iron-pages selected="0" id="iron-pages">
-      <div>
-		    <section>
-          <paper-card class="car-center">
-            <iron-icon icon="face" class="big"></iron-icon>
-          </paper-card>
-           <paper-card heading="Balance" class="car-center">
-           <iron-ajax
-            auto
-            id = "balanceGet"
-            url="http://159.203.99.148:4000/api/workers/1/balance"
-            handle-as="json"
-            contentType="application/json"
-            last-response="{{balanceRespuesta}}">
-          </iron-ajax>
-            <paper-input disabled value="[[balanceRespuesta.balance]]"></paper-input>
-          </paper-card>
-           <paper-card heading="Historial" class="car-center">
-           <iron-ajax
-            auto
-            id = "historyGet"
-            url="http://private-anon-1ad16da62-taskhandler.apiary-mock.com/workers/5/history"
-            handle-as="json"
-            contentType="application/json"
-            last-response="{{historialRespuesta}}">
-          </iron-ajax>               
-           <template is="dom-repeat" items="[[historialRespuesta.data]]">
-            <paper-material elevation="2">{{item.text}}</paper-material>
-           </template>
-          </paper-card>              
-        </section>
-	    </div>
-	    <div>
-	      <section class="section_scroll">
-          <paper-dialog-scrollable>
-            <iron-ajax
-              id = "taskGet"
-              url="http://159.203.99.148:4000/api/tasks/latest"
-              handle-as="json"
-              method="GET"
-              contentType="application/json"
-              last-response="{{tasksRespuesta}}">
-            </iron-ajax>            
-            <iron-image src="[[tasksRespuesta.data.image_url]]"></iron-image>
-          </paper-dialog-scrollable>
-        </section>
-        <section class="section_scroll">
-          <paper-dialog-scrollable>
-            <iron-autogrow-textarea id="txt1" class="car-center" value="{{tasksRespuesta.data.text}}">
-            </iron-autogrow-textarea>
-          </paper-dialog-scrollable>
-        </section>
-        <section class="car-center">
-          <iron-ajax
-            id="taskPut"
-            url="http://159.203.99.148:4000/api/tasks/[[tasksRespuesta.data.id]]"
-            method="PUT"
-            handle-as="json"
-            contentType="application/json"
-            last-response="{{putResponsable}}">
-          </iron-ajax>
-          <paper-button raised id="enviar">Enviar</paper-button>
-          <paper-button raised id="cancelar">Cancelar</paper-button>
-        </section>
-	    </div>
-	    </iron-pages>
+        <paper-tabs noink nobar selected="0" selectedindex="0" id="paper_tabs" horizontal center layout>
+            <paper-tab id="paper_tab" inline flex center-center horizontal layout active>
+                <iron-icon icon="list"></iron-icon>
+            </paper-tab>
+            <paper-tab id="paper_tab1" inline flex center-center horizontal layout>
+                <iron-icon icon="timeline"></iron-icon>
+            </paper-tab>
+        </paper-tabs> 
+        <iron-pages selected="0" id="iron-pages">
+            <div>
+                <section>
+                    <paper-card class="car-center">
+                        <iron-icon icon="face" class="big"></iron-icon>
+                    </paper-card>
+                    <paper-card heading="Balance" class="car-center">
+                        <iron-ajax
+                            auto
+                            id = "balanceGet"
+                            url="http://172.16.0.60:4000/api/workers/1/balance"
+                            handle-as="json"
+                            content-type="application/json"
+                            last-response="{{balanceRespuesta}}">
+                        </iron-ajax>
+                        <paper-input disabled value="[[balanceRespuesta.balance]]"></paper-input>
+                    </paper-card>
+                    <paper-card heading="Historial" class="car-center">
+                        <iron-ajax
+                            auto
+                            id = "historyGet"
+                            url="http://private-anon-1ad16da62-taskhandler.apiary-mock.com/workers/5/history"
+                            handle-as="json"
+                            content-type="application/json"
+                            last-response="{{historialRespuesta}}">
+                        </iron-ajax>               
+                        <template is="dom-repeat" items="[[historialRespuesta.data]]">
+                            <paper-material elevation="2">{{item.text}}</paper-material>
+                        </template>
+                    </paper-card>              
+                </section>
+            </div>
+            <div>
+                <section class="section_scroll">
+                    <paper-dialog-scrollable>
+                        <iron-ajax
+                            id = "taskGet"
+                            url="http://172.16.0.60:4000/api/tasks/latest"
+                            handle-as="json"
+                            method="GET"
+                            content-type="application/json"
+                            last-response="{{tasksRespuesta}}">
+                        </iron-ajax>            
+                        <iron-image src="[[tasksRespuesta.data.image_url]]"></iron-image>
+                    </paper-dialog-scrollable>
+                </section>
+                <section class="section_scroll">
+                    <paper-dialog-scrollable>
+                        <iron-autogrow-textarea id="txt1" class="car-center" value="{{tasksRespuesta.data.text}}">
+                        </iron-autogrow-textarea>
+                    </paper-dialog-scrollable>
+                </section>
+                <section class="car-center">        
+                    <iron-ajax
+                        id="taskPut"
+                        handle-as="json"
+                        url="http://172.16.0.60:4000/api/tasks/[[tasksRespuesta.data.id]]"
+                        method="PUT"
+                        content-type="application/json"
+                        >
+                    </iron-ajax>
+                    <paper-button raised id="enviar">Enviar</paper-button>
+                    <paper-button raised id="cancelar">Cancelar</paper-button>
+                </section>
+            </div>
+        </iron-pages>
     </template>
-  </div>
+</div>
 <script>
-addEventListener('WebComponentsReady', function() {
-  var pages = document.querySelector('iron-pages');
-  var tabs = document.querySelector('#paper_tabs');
-  var idLogeo =1;
+    addEventListener('WebComponentsReady', function() {
+        var pages = document.querySelector('iron-pages');
+        var tabs = document.querySelector('#paper_tabs');
+        var idLogeo = 1;
 
-  tabs.addEventListener('iron-select', function() { 
-              pages.selected = tabs.selected;
-              if (tabs.selected == 1) {
+        tabs.addEventListener('iron-select', function() {
+            pages.selected = tabs.selected;
+            if (tabs.selected == 1) {
                 var getSender = document.querySelector('#taskGet');
                 getSender.generateRequest();
-              } 
-              if (tabs.selected == 0) {
+            }
+            if (tabs.selected == 0) {
                 var getHistory = document.querySelector('#historyGet');
                 var getBalance = document.querySelector('#balanceGet');
                 getHistory.generateRequest();
                 getBalance.generateRequest();
-              } 
-          });
-  var botons = {
-      enviar: document.querySelector('#enviar'),
-      cancelar: document.querySelector('#cancelar')
-  };
-  var sender=document.querySelector('#taskPut');
-  var texto=document.querySelector('#txt1');
+            }
+        });
+        var botons = {
+            enviar: document.querySelector('#enviar'),
+            cancelar: document.querySelector('#cancelar')
+        };
+        var sender = document.querySelector('#taskPut');
+        var texto = document.querySelector('#txt1');
 
-  botons.enviar.addEventListener('click', function(e) {
-    sender.body= JSON.stringify({"text":texto.value ,"worker": idLogeo});
-    sender.generateRequest();
+        botons.enviar.addEventListener('click', function(e) {
+            /*sender.body= JSON.stringify({"task":{"text":texto.value ,"worker_id": idLogeo}});*/
+            sender.body = JSON.stringify({task: {text: texto.value, worker_id: idLogeo}});
+            /*sender.body= JSON.stringify({"text":texto.value ,"worker_id": idLogeo});*/
+            sender.generateRequest();
 
-    var getSender = document.querySelector('#taskGet');
-    getSender.generateRequest();
-  });
-})
-  </script>
+            /*var getSender = document.querySelector('#taskGet');
+             getSender.generateRequest();*/
+        });
+    })
+</script>
 </body>
 </html>
 
