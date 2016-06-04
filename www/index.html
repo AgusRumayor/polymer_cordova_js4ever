@@ -67,6 +67,7 @@
 <body unresolved>
 <div class="horizontal-section-container">
     <template is="dom-bind" id="app">
+      <iron-image sizing="contain" id="example-sizing-contain" src="[[tasksRespuesta.data.image_url]]"></iron-image>
         <paper-tabs noink nobar selected="0" selectedindex="0" id="paper_tabs" horizontal center layout>
             <paper-tab id="paper_tab" inline flex center-center horizontal layout active>
                 <iron-icon icon="list"></iron-icon>
@@ -119,7 +120,7 @@
                             last-response="{{tasksRespuesta}}">
                         </iron-ajax>
                                   
-                          <iron-image  src="[[tasksRespuesta.data.image_url]]"></iron-image>
+                          <iron-image sizing="contain" id="example-sizing-contain" src="[[tasksRespuesta.data.image_url]]"></iron-image>
                         
                     </paper-dialog-scrollable>
                 </section>
