@@ -154,6 +154,7 @@
         var pages = document.querySelector('iron-pages');
         var tabs = document.querySelector('#paper_tabs');
         var idLogeo = 1;
+        var taskDone = "done";
 
         tabs.addEventListener('iron-select', function() {
             pages.selected = tabs.selected;
@@ -177,12 +178,12 @@
 
         botons.enviar.addEventListener('click', function(e) {
             /*sender.body= JSON.stringify({"task":{"text":texto.value ,"worker_id": idLogeo}});*/
-            sender.body = JSON.stringify({task: {text: texto.value, worker_id: idLogeo}});
+            sender.body = JSON.stringify({task: {text: texto.value, worker_id: idLogeo, status: taskDone}});
             /*sender.body= JSON.stringify({"text":texto.value ,"worker_id": idLogeo});*/
             sender.generateRequest();
 
-            /*var getSender = document.querySelector('#taskGet');
-             getSender.generateRequest();*/
+            var getSender = document.querySelector('#taskGet');
+             getSender.generateRequest();
         });
     })
 </script>
